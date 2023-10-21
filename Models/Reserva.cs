@@ -15,16 +15,14 @@ namespace DesafioProjetoHospedagem.Models
 
         public void CadastrarHospedes(List<Pessoa> hospedes)
         {
-            // TODO: Verificar se a capacidade é maior ou igual ao número de hóspedes sendo recebido
-            // *IMPLEMENTE AQUI*
-            if (true)
+            if (hospedes.Count <= this.Suite.Capacidade)
             {
                 Hospedes = hospedes;
             }
             else
             {
-                // TODO: Retornar uma exception caso a capacidade seja menor que o número de hóspedes recebido
-                // *IMPLEMENTE AQUI*
+                throw new Exception("Número de hóspedes é maior que a capacidade da suíte\n" +
+                                    $"Hóspedes: {hospedes.Count} Capacidade suíte: {this.Suite.Capacidade}");
             }
         }
 
@@ -35,26 +33,28 @@ namespace DesafioProjetoHospedagem.Models
 
         public int ObterQuantidadeHospedes()
         {
-            // TODO: Retorna a quantidade de hóspedes (propriedade Hospedes)
-            // *IMPLEMENTE AQUI*
-            return 0;
+            return this.Hospedes.Count;
         }
 
         public decimal CalcularValorDiaria()
         {
-            // TODO: Retorna o valor da diária
-            // Cálculo: DiasReservados X Suite.ValorDiaria
-            // *IMPLEMENTE AQUI*
-            decimal valor = 0;
+            decimal valor = this.DiasReservados * this.Suite.ValorDiaria;
 
-            // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
-            // *IMPLEMENTE AQUI*
-            if (true)
+            if (VerificarSeDeveConcederDesconto())
             {
-                valor = 0;
+                decimal PercDescontoDiaria = 10;
+                decimal valorDesconto = valor * (PercDescontoDiaria / 100);
+                valor -= valorDesconto;
             }
 
             return valor;
         }
+
+        private bool VerificarSeDeveConcederDesconto()
+        {
+          int QtdeDiasParaConcederDesconto = 10;
+          return this.DiasReservados >= QtdeDiasParaConcederDesconto;
+        }        
+
     }
 }
